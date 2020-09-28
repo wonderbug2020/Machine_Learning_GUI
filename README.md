@@ -1,1 +1,1 @@
-# Machine_Learning_GUI
+This project is still in the very early stages of development. The motivation for this project is to create a GUI to help with the processes of running machine learning algorithms. This is twofold. It should allow for quicker processing of datasets but is also a learning opportunity for me to learn more about code, software development, machine learning algorithms themselves, and any other challenges I might face along the way.
