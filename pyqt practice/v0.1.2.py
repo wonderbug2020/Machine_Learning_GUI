@@ -48,8 +48,8 @@ class MainWindow(QMainWindow):
         self.table = QtWidgets.QTableView()
         self.table.setModel(self.model)
 
-        layout1.addWidget(self.table)
-        layout1.addLayout(layout2)
+        layout1.addWidget(self.table,75)
+        layout1.addLayout(layout2, 25)
 
         self.setCentralWidget(central_widget)
         #self.setCentralWidget(layout1)
@@ -58,5 +58,5 @@ class MainWindow(QMainWindow):
 
 app = QApplication(sys.argv)
 window = MainWindow()
-window.show()
+window.showMaximized()
 app.exec_()
