@@ -38,22 +38,25 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("prototype 2")
 
         data = pd.read_csv('data/HTRU_2.csv')
+        col_headers = data.columns.tolist()
+        print(type(col_headers))
 
-        central_widget = QWidget()
-        layout1 = QHBoxLayout(central_widget)
-        layout2 = QVBoxLayout()
+        self.central_widget = QWidget()
+        self.layout1 = QHBoxLayout(self.central_widget)
+        self.layout2 = QVBoxLayout()
 
         self.model = TableModel(data)
         self.table = QtWidgets.QTableView()
         self.table.setModel(self.model)
-        layout1.addWidget(self.table,75)
+        self.layout1.addWidget(self.table,75)
 
-        dropdown_1 = QComboBox()
-        layout2.addWidget(dropdown_1)
+        self.dropdown_1 = QComboBox()
+        self.dropdown_1.addItems(col_headers)
+        self.layout2.addWidget(self.dropdown_1)
 
-        layout1.addLayout(layout2, 25)
+        self.layout1.addLayout(self.layout2, 25)
 
-        self.setCentralWidget(central_widget)
+        self.setCentralWidget(self.central_widget)
         #self.setCentralWidget(layout1)
 
 
