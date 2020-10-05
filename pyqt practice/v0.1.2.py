@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QLabel, QMainWindow, QWidget,
-                             QHBoxLayout, QVBoxLayout)
+                             QHBoxLayout, QVBoxLayout, QComboBox)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 from PyQt5 import QtCore, QtWidgets
@@ -37,7 +37,6 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("prototype 2")
 
-
         data = pd.read_csv('data/HTRU_2.csv')
 
         central_widget = QWidget()
@@ -47,8 +46,11 @@ class MainWindow(QMainWindow):
         self.model = TableModel(data)
         self.table = QtWidgets.QTableView()
         self.table.setModel(self.model)
-
         layout1.addWidget(self.table,75)
+
+        dropdown_1 = QComboBox()
+        layout2.addWidget(dropdown_1)
+
         layout1.addLayout(layout2, 25)
 
         self.setCentralWidget(central_widget)
