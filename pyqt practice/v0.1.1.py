@@ -1,6 +1,9 @@
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import (QApplication, QLabel, QMainWindow, QWidget,
+                             QHBoxLayout, QVBoxLayout)
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPalette, QColor
+from PyQt5 import QtCore, QtWidgets
 import pandas as pd
 
 
@@ -28,27 +31,33 @@ class TableModel(QtCore.QAbstractTableModel):
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
 
-
-class MainWindow(QtWidgets.QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super(MainWindow, self).__init__()
 
-        self.table = QtWidgets.QTableView()
+        self.setWindowTitle("prototype 2")
 
-        data = [
-          [4, 9, 2],
-          [1, 0, 0],
-          [3, 5, 0],
-          [3, 3, 2],
-          [7, 8, 9],
-        ]
+
+        data = pd.read_csv('data/HTRU_2.csv')
+
+        central_widget = QWidget()
+        layout1 = QHBoxLayout(central_widget)
+        #layout1 = QHBoxLayout()
+        layout2 = QVBoxLayout()
 
         self.model = TableModel(data)
+        self.table = QtWidgets.QTableView()
         self.table.setModel(self.model)
 
-        self.setCentralWidget(self.table)
+        layout1.addWidget(self.table)
+        layout1.addLayout(layout2)
 
-app = QtWidgets.QApplication(sys.argv)
-window=MainWindow()
+        self.setCentralWidget(central_widget)
+        #self.setCentralWidget(layout1)
+
+
+
+app = QApplication(sys.argv)
+window = MainWindow()
 window.show()
 app.exec_()
