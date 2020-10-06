@@ -42,6 +42,8 @@ class MainWindow(QMainWindow):
         data = pd.read_csv('data/HTRU_2.csv')
         #makes a list of all the column headers
         col_headers = data.columns.tolist()
+        #makes a list of the ML models to used
+        model_lst = ['Logistic regression']
 
         #Sets up the layouts that will be used
         self.central_widget = QWidget()
@@ -55,12 +57,21 @@ class MainWindow(QMainWindow):
         self.layout1.addWidget(self.table,80)
 
         #Right side UI
+        #Dropdown list to choose the column
         self.dropdown_1_text = QLabel("Select the predictor column")
-        #self.layout2.addWidget(self.dropdown_1_text)
         self.dropdown_1 = QComboBox()
         self.dropdown_1.addItems(col_headers)
+        #Dropdown list to choose the model
+        self.dropdown_2_text = QLabel("Select the Model you would like to use")
+        self.dropdown_2 = QComboBox()
+        self.dropdown_2.addItems(model_lst)
+        #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
+        self.layout2.addWidget(self.dropdown_2_text)
+        self.layout2.addWidget(self.dropdown_2)
+        #adding the rightside ui to the main layout
+        self.layout2.setAlignment(Qt.AlignTop)
 
         self.layout1.addLayout(self.layout2, 20)
 
