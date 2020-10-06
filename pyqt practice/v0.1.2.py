@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QLabel, QMainWindow, QWidget,
-                             QHBoxLayout, QVBoxLayout, QComboBox)
+                             QHBoxLayout, QVBoxLayout, QComboBox, QSlider)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 from PyQt5 import QtCore, QtWidgets
@@ -65,11 +65,16 @@ class MainWindow(QMainWindow):
         self.dropdown_2_text = QLabel("Select the Model you would like to use")
         self.dropdown_2 = QComboBox()
         self.dropdown_2.addItems(model_lst)
+        #Slider bar to set train/test split
+        self.train_split_text = QLabel("Select the train test split you would like to use")
+        self.train_split_slider = QSlider(Qt.Horizontal)
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
         self.layout2.addWidget(self.dropdown_2_text)
         self.layout2.addWidget(self.dropdown_2)
+        self.layout2.addWidget(self.train_split_text)
+        self.layout2.addWidget(self.train_split_slider)
         #adding the rightside ui to the main layout
         self.layout2.setAlignment(Qt.AlignTop)
 
