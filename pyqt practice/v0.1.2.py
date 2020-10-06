@@ -68,6 +68,13 @@ class MainWindow(QMainWindow):
         #Slider bar to set train/test split
         self.train_split_text = QLabel("Select the train test split you would like to use")
         self.train_split_slider = QSlider(Qt.Horizontal)
+        #self.train_split_slider.setMinimum(0)
+        #self.train_split_slider.setMaximum(100)
+        self.train_split_slider.setRange(0,100)
+        self.train_split_slider.setSingleStep(5)
+        #self.train_split_slider.value()
+        self.train_split_slider.setTickInterval(5)
+        self.train_split_slider.setTickPosition(QSlider.TicksBelow)
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
