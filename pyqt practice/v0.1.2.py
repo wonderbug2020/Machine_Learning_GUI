@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QLabel, QMainWindow, QWidget,
-                             QHBoxLayout, QVBoxLayout, QComboBox, QSlider)
+                             QHBoxLayout, QVBoxLayout, QComboBox, QLineEdit,
+                             QPushButton)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 from PyQt5 import QtCore, QtWidgets
@@ -65,23 +66,23 @@ class MainWindow(QMainWindow):
         self.dropdown_2_text = QLabel("Select the Model you would like to use")
         self.dropdown_2 = QComboBox()
         self.dropdown_2.addItems(model_lst)
-        #Slider bar to set train/test split
+        #Input box to set train/test split
         self.train_split_text = QLabel("Select the train test split you would like to use")
-        self.train_split_slider = QSlider(Qt.Horizontal)
-        #self.train_split_slider.setMinimum(0)
-        #self.train_split_slider.setMaximum(100)
-        self.train_split_slider.setRange(0,100)
-        self.train_split_slider.setSingleStep(5)
-        #self.train_split_slider.value()
-        self.train_split_slider.setTickInterval(5)
-        self.train_split_slider.setTickPosition(QSlider.TicksBelow)
+        self.train_split_input = QLineEdit()
+        self.train_split_input.setMaxLength(3)
+        #Button to build the model
+        self.model_btn_text = QLabel("Push here once you have choosen all your options")
+        self.model_btn = QPushButton()
+        self.model_btn.setText("Run Model")
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
         self.layout2.addWidget(self.dropdown_2_text)
         self.layout2.addWidget(self.dropdown_2)
         self.layout2.addWidget(self.train_split_text)
-        self.layout2.addWidget(self.train_split_slider)
+        self.layout2.addWidget(self.train_split_input)
+        self.layout2.addWidget(self.model_btn_text)
+        self.layout2.addWidget(self.model_btn)
         #adding the rightside ui to the main layout
         self.layout2.setAlignment(Qt.AlignTop)
 
