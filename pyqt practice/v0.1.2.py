@@ -32,6 +32,8 @@ class TableModel(QtCore.QAbstractTableModel):
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
 
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -74,6 +76,11 @@ class MainWindow(QMainWindow):
         self.model_btn_text = QLabel("Push here once you have choosen all your options")
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
+        self.func = UIfunc()
+        #self.model_btn.clicked.connect(self.test_func)
+        self.model_btn.clicked.connect(self.func.test_func())
+        #Label to display the results
+        self.output_text = QLabel()
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
@@ -83,14 +90,16 @@ class MainWindow(QMainWindow):
         self.layout2.addWidget(self.train_split_input)
         self.layout2.addWidget(self.model_btn_text)
         self.layout2.addWidget(self.model_btn)
+        self.layout2.addWidget(self.output_text)
         #adding the rightside ui to the main layout
         self.layout2.setAlignment(Qt.AlignTop)
 
         self.layout1.addLayout(self.layout2, 20)
 
         self.setCentralWidget(self.central_widget)
-        #self.setCentralWidget(layout1)
 
+    #def test_func(self):
+        #self.output_text.setText("Clicked")
 
 
 app = QApplication(sys.argv)
