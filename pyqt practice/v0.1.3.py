@@ -34,6 +34,35 @@ class TableModel(QtCore.QAbstractTableModel):
 
 
 
+    def get_predictor(self, predictor):
+        #print(self._data[y])
+        y_df = self._data[predictor]
+        x_df = self._data.drop(labels=[predictor],axis=1)
+
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(x_df, y_df, test_size=0.25, random_state=101)
+
+        from sklearn.preprocessing import StandardScaler
+        sc = StandardScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+
+        from sklearn.linear_model import LogisticRegression
+        log_cla = LogisticRegression(random_state = 0)
+        log_cla.fit(X_train, y_train)
+        y_pred = log_cla.predict(X_test)
+
+        from sklearn.metrics import confusion_matrix, accuracy_score
+        cm = confusion_matrix(y_test, y_pred)
+        print(cm)
+        ac = accuracy_score(y_test, y_pred)
+        print(ac)
+
+
+
+
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -64,23 +93,27 @@ class MainWindow(QMainWindow):
         self.dropdown_1_text = QLabel("Select the predictor column")
         self.dropdown_1 = QComboBox()
         self.dropdown_1.addItems(col_headers)
+
         #Dropdown list to choose the model
         self.dropdown_2_text = QLabel("Select the Model you would like to use")
         self.dropdown_2 = QComboBox()
         self.dropdown_2.addItems(model_lst)
+
         #Input box to set train/test split
         self.train_split_text = QLabel("Select the train test split you would like to use")
         self.train_split_input = QLineEdit()
         self.train_split_input.setMaxLength(3)
+
         #Button to build the model
         self.model_btn_text = QLabel("Push here once you have choosen all your options")
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
-        #self.func = UIfunc()
-        #self.model_btn.clicked.connect(self.test_func)
-        #self.model_btn.clicked.connect(self.func.test_func())
+
+        self.model_btn.clicked.connect(lambda: self.model.get_predictor(self.dropdown_1.currentText()))
+
         #Label to display the results
         self.output_text = QLabel()
+
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)

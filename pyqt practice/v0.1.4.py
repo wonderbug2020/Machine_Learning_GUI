@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 from PyQt5 import QtCore, QtWidgets
 import pandas as pd
+import numpy
 
 
 class TableModel(QtCore.QAbstractTableModel):
@@ -32,7 +33,48 @@ class TableModel(QtCore.QAbstractTableModel):
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
 
+    def build_model(self, predictor, model_select):
+        #print(f"The predictor is {predictor} and the model is {model_select}")
+        X,y = self.get_X_y(predictor)
+        X_train, X_test, y_train, y_test = self.get_train_test_split(X,y)
+        x_train, X_test = self.get_scaled_data(X_train, X_test)
+        y_pred = self.run_model(X_train, y_train, X_test)
+        cm, ac = self.get_metrics(y_test, y_pred)
+        #print(f"{cm} and {ac}")
+        print(cm)
+        print(ac)
 
+    def get_X_y(self, predictor):
+        y=self._data[predictor].to_numpy()
+        X=self._data.drop(labels=[predictor],axis=1).to_numpy()
+        return X, y
+
+    def get_train_test_split(self, X, y):
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=101)
+        return X_train, X_test, y_train, y_test
+
+    def get_scaled_data(self, X_train, X_test):
+        from sklearn.preprocessing import StandardScaler
+        sc = StandardScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+        return X_train, X_test
+
+    def run_model(self, X_train, y_train, X_test):
+        from sklearn.linear_model import LogisticRegression
+        log_cla = LogisticRegression(random_state = 0)
+        log_cla.fit(X_train, y_train)
+        y_pred = log_cla.predict(X_test)
+        return(y_pred)
+
+    def get_metrics(self, y_test, y_pred):
+        from sklearn.metrics import confusion_matrix, accuracy_score
+        cm = confusion_matrix(y_test, y_pred)
+        #print(cm)
+        ac = accuracy_score(y_test, y_pred)
+        #print(ac)
+        return cm, ac
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -46,7 +88,7 @@ class MainWindow(QMainWindow):
         #makes a list of all the column headers
         col_headers = data.columns.tolist()
         #makes a list of the ML models to used
-        model_lst = ['Logistic regression']
+        model_lst = ['Logistic regression','Random Forest']
 
         #Sets up the layouts that will be used
         self.central_widget = QWidget()
@@ -64,23 +106,27 @@ class MainWindow(QMainWindow):
         self.dropdown_1_text = QLabel("Select the predictor column")
         self.dropdown_1 = QComboBox()
         self.dropdown_1.addItems(col_headers)
+
         #Dropdown list to choose the model
         self.dropdown_2_text = QLabel("Select the Model you would like to use")
         self.dropdown_2 = QComboBox()
         self.dropdown_2.addItems(model_lst)
+
         #Input box to set train/test split
         self.train_split_text = QLabel("Select the train test split you would like to use")
         self.train_split_input = QLineEdit()
         self.train_split_input.setMaxLength(3)
+
         #Button to build the model
         self.model_btn_text = QLabel("Push here once you have choosen all your options")
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
-        #self.func = UIfunc()
-        #self.model_btn.clicked.connect(self.test_func)
-        #self.model_btn.clicked.connect(self.func.test_func())
+
+        self.model_btn.clicked.connect(lambda: self.model.build_model(self.dropdown_1.currentText(),self.dropdown_2.currentText()))
+
         #Label to display the results
         self.output_text = QLabel()
+
         #adding the widgets to the layout
         self.layout2.addWidget(self.dropdown_1_text)
         self.layout2.addWidget(self.dropdown_1)
