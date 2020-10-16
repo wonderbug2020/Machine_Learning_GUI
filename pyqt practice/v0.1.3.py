@@ -34,8 +34,34 @@ class TableModel(QtCore.QAbstractTableModel):
 
 
 
-    def get_predictor(self, y):
-        print(f"the selected predictor is {y}")
+    def get_predictor(self, predictor):
+        #print(self._data[y])
+        y_df = self._data[predictor]
+        x_df = self._data.drop(labels=[predictor],axis=1)
+
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(x_df, y_df, test_size=0.25, random_state=101)
+
+        from sklearn.preprocessing import StandardScaler
+        sc = StandardScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+
+        from sklearn.linear_model import LogisticRegression
+        log_cla = LogisticRegression(random_state = 0)
+        log_cla.fit(X_train, y_train)
+        y_pred = log_cla.predict(X_test)
+
+        from sklearn.metrics import confusion_matrix, accuracy_score
+        cm = confusion_matrix(y_test, y_pred)
+        print(cm)
+        ac = accuracy_score(y_test, y_pred)
+        print(ac)
+
+
+
+
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -82,8 +108,9 @@ class MainWindow(QMainWindow):
         self.model_btn_text = QLabel("Push here once you have choosen all your options")
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
+
         self.model_btn.clicked.connect(lambda: self.model.get_predictor(self.dropdown_1.currentText()))
-        
+
         #Label to display the results
         self.output_text = QLabel()
 
