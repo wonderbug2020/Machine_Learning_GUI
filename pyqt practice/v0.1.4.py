@@ -33,12 +33,12 @@ class TableModel(QtCore.QAbstractTableModel):
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
 
-    def build_model(self, predictor, model_select):
+    def build_model(self, predictor, model_select, tts):
         #print(f"The predictor is {predictor} and the model is {model_select}")
         X,y = self.get_X_y(predictor)
-        X_train, X_test, y_train, y_test = self.get_train_test_split(X,y)
+        X_train, X_test, y_train, y_test = self.get_train_test_split(X,y,float(tts))
         x_train, X_test = self.get_scaled_data(X_train, X_test)
-        y_pred = self.run_model(X_train, y_train, X_test)
+        y_pred = self.logistic_regression_model(X_train, y_train, X_test)
         cm, ac = self.get_metrics(y_test, y_pred)
         #print(f"{cm} and {ac}")
         print(cm)
@@ -49,9 +49,9 @@ class TableModel(QtCore.QAbstractTableModel):
         X=self._data.drop(labels=[predictor],axis=1).to_numpy()
         return X, y
 
-    def get_train_test_split(self, X, y):
+    def get_train_test_split(self, X, y, split):
         from sklearn.model_selection import train_test_split
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=101)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=split, random_state=101)
         return X_train, X_test, y_train, y_test
 
     def get_scaled_data(self, X_train, X_test):
@@ -61,7 +61,7 @@ class TableModel(QtCore.QAbstractTableModel):
         X_test = sc.transform(X_test)
         return X_train, X_test
 
-    def run_model(self, X_train, y_train, X_test):
+    def logistic_regression_model(self, X_train, y_train, X_test):
         from sklearn.linear_model import LogisticRegression
         log_cla = LogisticRegression(random_state = 0)
         log_cla.fit(X_train, y_train)
@@ -122,7 +122,10 @@ class MainWindow(QMainWindow):
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
 
-        self.model_btn.clicked.connect(lambda: self.model.build_model(self.dropdown_1.currentText(),self.dropdown_2.currentText()))
+        self.model_btn.clicked.connect(lambda: self.model.build_model(
+                                               self.dropdown_1.currentText(),
+                                               self.dropdown_2.currentText(),
+                                               self.train_split_input.text()))
 
         #Label to display the results
         self.output_text = QLabel()
