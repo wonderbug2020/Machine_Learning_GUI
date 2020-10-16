@@ -76,9 +76,9 @@ class MainWindow(QMainWindow):
         self.model_btn_text = QLabel("Push here once you have choosen all your options")
         self.model_btn = QPushButton()
         self.model_btn.setText("Run Model")
-        self.func = UIfunc()
+        #self.func = UIfunc()
         #self.model_btn.clicked.connect(self.test_func)
-        self.model_btn.clicked.connect(self.func.test_func())
+        #self.model_btn.clicked.connect(self.func.test_func())
         #Label to display the results
         self.output_text = QLabel()
         #adding the widgets to the layout

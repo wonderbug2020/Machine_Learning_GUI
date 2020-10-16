@@ -36,10 +36,14 @@ class UiLayout(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.central_widget = QWidget()
-        self.layout1 = QHBoxLayout(self.central_widget)
-        self.dropdown_1_text = QLabel("Select the predictor column")
-        self.layout1.addWidget(self.dropdown_1_text)
+        #self.central_widget = QWidget()
+        #self.layout1 = QHBoxLayout(self.central_widget)
+        #self.dropdown_1_text = QLabel("Select the predictor column")
+        #self.layout1.addWidget(self.dropdown_1_text)
+
+        self.layout_top = QVBoxLayout()
+        self.text_1 = QLabel("text goes here")
+        self.layout_top.addWidget(self.text_1)
 
 class MainWindow(QMainWindow):
     def __init__(self, ui_layout):
