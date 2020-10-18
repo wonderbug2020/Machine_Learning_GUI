@@ -52,7 +52,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.test_btn = QPushButton()
         self.test_btn.setText("Test")
-        self.test_btn.clicked.connect(self.showDialog)
+        #self.test_btn.clicked.connect(self.showDialog)
+        self.test_btn.clicked.connect(self.get_sk_data)
 
         self.layout1.addWidget(self.test_btn,20)
 
@@ -67,15 +68,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model = TableModel(self._data)
         self.table.setModel(self.model)
 
-        """
-        if fname:
-            ff = open(fname[0], 'r')
-            with ff:
-                self._data = csv.reader(ff, delimiter=';')
-            print(fname[0])
-            #self.model = TableModel(self._data)
-            #self.table.setModel(self.model)
-        """
+    def get_sk_data(self):
+        from sklearn import datasets
+        iris = datasets.load_iris()
+        self._data = pd.DataFrame(iris.data, columns=iris.feature_names)
+        #print(type(self._data))
+        self.model = TableModel(self._data)
+        self.table.setModel(self.model)
 
 
 
