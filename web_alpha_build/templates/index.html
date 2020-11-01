@@ -19,12 +19,16 @@
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home">
-          <p>This is the Home tab. To get started load in a data set</p>
+          <!-- <p>This is the Home tab. To get started load in a data set</p> -->
+          {% block welcome %}
+          {% endblock %}
         </div>
         <div class="tab-pane fade" id="data">
-          <p id="data-p">First things first, we need some data to make a model of. </p>
+          <!-- <p id="data-p">First things first, we need some data to make a model of. </p>
           <button class="btn btn-primary" type="button" name="loadButton" onclick="removeText()">Load own data</button>
-          <button class="btn btn-secondary" type="button" name="loadButton">Load toy data</button>
+          <button class="btn btn-secondary" type="button" name="loadButton">Load toy data</button> -->
+          {% block data %}
+          {% endblock %}
         </div>
       </div>
     </div>
