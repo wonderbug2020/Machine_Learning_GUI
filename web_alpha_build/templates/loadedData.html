@@ -1,0 +1,16 @@
+{% extends "index.html"%}
+{% block welcome %}
+<h1>You have loaded some data. If you would like to load a different dataset, please make a new selection below</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {{ form.selectData.label }}{{ form.selectData}}
+  <br>
+  {{ form.submit() }}
+</form>
+
+{% endblock %}
+
+{% block data %}
+<h1>This is the data page after the button to load data has been clicked.</h1>
+{{ dataset|safe }}
+{% endblock %}

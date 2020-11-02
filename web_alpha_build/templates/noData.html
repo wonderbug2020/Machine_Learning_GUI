@@ -1,6 +1,12 @@
 {% extends "index.html"%}
 {% block welcome %}
 <h1>To get started lets load in some toy data</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {{ form.selectData.label }}{{ form.selectData}}
+  <br>
+  {{ form.submit() }}  
+</form>
 
 {% endblock %}
 
