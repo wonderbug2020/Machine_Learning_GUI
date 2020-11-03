@@ -11,26 +11,41 @@ def get_dataset(ind):
         df = pd.DataFrame(data.data, columns=data.feature_names)
         df['MEDV'] = data.target
         ds = df.to_html()
+        columns = df.columns.to_list()
+        col_choice = get_predictor(df.columns.to_list())
     elif ind == 2:
         from sklearn.datasets import load_iris
         data = load_iris()
         df = pd.DataFrame(data.data, columns=data.feature_names)
         df['species'] = data.target
         ds = df.to_html()
+        columns = df.columns.to_list()
+        col_choice = get_predictor(df.columns.to_list())
     elif ind == 3:
         from sklearn.datasets import load_wine
         data = load_wine()
         df = pd.DataFrame(data.data, columns=data.feature_names)
         df['class'] = data.target
         ds = df.to_html()
+        columns = df.columns.to_list()
+        col_choice = get_predictor(df.columns.to_list())
     else:
         from sklearn.datasets import load_breast_cancer
         data = load_breast_cancer()
         df = pd.DataFrame(data.data, columns=data.feature_names)
         df['class'] = data.target
         ds = df.to_html()
+        columns = df.columns.to_list()
+        col_choice = get_predictor(df.columns.to_list())
 
-    return ds
+    return ds, col_choice
+
+def get_predictor(headers):
+    header_lst = []
+    for col in headers:
+        header_lst.append((col.index,col))
+
+    return header_lst
 
 
 
