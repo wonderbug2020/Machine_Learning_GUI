@@ -31,13 +31,21 @@ def index():
     if form_1.validate_on_submit():
         dataset, headers = toy_data.get_dataset(int(form_1.selectData.data))
         form_2.selectPredict.choices = headers
+        print("This was executed")
         return render_template('loadedData.html', form_1=form_1, form_2=form_2, dataset=dataset)
+
+    return render_template('noData.html', form_1=form_1)
+
+def modelBuilt():
+
+    form_1 = LoadDataForm()
+    form_2 = BuildModelForm()
 
     if form_2.validate_on_submit():
         print(form_2.selectPredict.data)
-        #return render_template('noData.html', form_1=form_1)
+        print("this was also executed")
+        return render_template('builtModel.html', form_1=form_1, form_2=form_2, dataset=dataset)
 
-    return render_template('noData.html', form_1=form_1)
 
 if __name__ == '__main__':
     app.run(debug=True)
