@@ -20,7 +20,7 @@ class BuildModelForm(FlaskForm):
     selectSplit = FloatField('Pick a test/train split between 0 and 1')#,validators=[DataRequired(), NumberRange(0,1)])
     selectTransform = SelectField('Pick a transform if you need one, else select none',choices=[('1','none'),('2','Standard Scaler')])
     selectModel = SelectField('Pick the model you would like to use: ',choices=[('1','Logistic Regression')])
-    modelSubmit = SubmitField('Select')
+    modelSubmit = SubmitField('Select 1')
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -41,7 +41,8 @@ def modelBuilt():
     form_1 = LoadDataForm()
     form_2 = BuildModelForm()
 
-    if form_2.validate_on_submit():
+    #if form_2.validate_on_submit():
+    if form_2.modelSubmit.data and form_2.validate():
         print(form_2.selectPredict.data)
         print("this was also executed")
         return render_template('builtModel.html', form_1=form_1, form_2=form_2, dataset=dataset)
