@@ -11,14 +11,12 @@
 
 {% block data %}
 <h3>This is your data table. You can click on the model tab to begin building your model</h3>
-<form method="post">
-  {{ dataset|safe }}
-</form>
+{{ dataset|safe }}
 {% endblock %}
 
 {% block model %}
 <form method="post">
-  <h3>Now that you have loaded your data, you can begin building your model below</h3>
+  <h3>This should be different</h3>
   {{ form_2.hidden_tag() }}
   {{ form_2.selectPredict.label }}{{ form_2.selectPredict }}
   <br>

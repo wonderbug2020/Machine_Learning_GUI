@@ -2,14 +2,18 @@
 {% block welcome %}
 <h1>To get started lets load in some toy data</h1>
 <form method="post">
-  {{ form.hidden_tag() }}
-  {{ form.selectData.label }}{{ form.selectData}}
+  {{ form_1.hidden_tag() }}
+  {{ form_1.selectData.label }}{{ form_1.selectData}}
   <br>
-  {{ form.submit() }}  
+  {{ form_1.submit() }}
 </form>
 
 {% endblock %}
 
 {% block data %}
-<h1>This is the data tab with no data loaded</h1>
+<h3>Currently you have no data loaded, You can load data from the Home tab</h3>
+{% endblock %}
+
+{% block model %}
+<h3>Currently you have no data loaded, You can load data from the Home tab</h3>
 {% endblock %}
