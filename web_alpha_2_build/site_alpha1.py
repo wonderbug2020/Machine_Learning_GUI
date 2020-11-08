@@ -2,12 +2,14 @@ from flask import Flask,render_template,session, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, SelectField, FloatField
 from wtforms.validators import DataRequired, NumberRange
-
-#import toy_data
+import toy_data
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'mysecretkey'
+
+toy_data_lst = toy_data.get_choice()
+
+
 
 @app.route('/', methods=['GET','POST'])
 def index():
