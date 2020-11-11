@@ -21,8 +21,9 @@ def index():
 
 @app.route('/DataTable', methods=['GET','POST'])
 def index_data():
+    dataset = toy_data.get_empty_df()
 
-    return render_template('DataTable.html')
+    return render_template('DataTable.html',dataset=dataset)
 
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
@@ -36,8 +37,11 @@ def index_results():
 
 @app.route('/test', methods=['GET','POST'])
 def test():
+    form = LoadDataForm()
     print("this button was clicked")
-    return ""
+    print(form.selectData)#.data)
+    #dataset, headers = toy_data.get_dataset(int(form.selectData.data))
+    return ""# render_template('DataTable.html',dataset=dataset)
 
 if __name__ == '__main__':
     app.run(debug=True)

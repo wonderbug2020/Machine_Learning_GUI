@@ -40,6 +40,13 @@ def get_dataset(ind):
 
     return ds, col_choice
 
+def get_empty_df():
+    #df = pd.DataFrame(index=index,columns=columns)
+    df = pd.DataFrame()
+    df = df.fillna(0)
+
+    return df
+
 def get_predictor(headers):
     header_lst = []
     for col in headers:

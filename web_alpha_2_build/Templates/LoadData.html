@@ -1,4 +1,4 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
         $(function() {
           $('a#test').bind('click', function() {
@@ -9,7 +9,7 @@
             return false;
           });
         });
-</script>
+</script> -->
 
 
 {% extends "index.html"%}
@@ -18,11 +18,12 @@
 <p>To get starter, import some toy data</p>
 <form method="post">
   {{ form.hidden_tag() }}
-  {{ form.selectData.label }}{{ form.selectData}}
+  {{ form.selectToyData.label }}{{ form.selectToyData}}
   <br>
-  <form action="/test" method="post">
+  {{ form.toySubmit() }}
+  <!-- <form action="/test" method="post">
     <a id=test class="btn btn-primary" href="#" role="button">Submit</a>
-  </form>
+  </form> -->
 
 </form>
 
