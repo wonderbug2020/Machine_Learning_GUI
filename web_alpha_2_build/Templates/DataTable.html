@@ -1,5 +1,7 @@
 {% extends "index.html"%}
 {% block content %}
 <h3>This is data table page.</h3>
-
+<form method="post">
+  {{ dataset|safe }}  
+</form>
 {% endblock %}
