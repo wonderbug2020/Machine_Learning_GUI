@@ -15,18 +15,29 @@ class LoadDataForm(FlaskForm):
 @app.route('/', methods=['GET','POST'])
 def index():
     loadform = LoadDataForm()
+    session['dataset'] = 0
 
     if loadform.validate_on_submit():
-        dataset, headers = toy_data.get_dataset(int(loadform.selectToyData.data))
-        return render_template('DataTable.html',dataset=dataset)
+        session['getsel'] = int(loadform.selectToyData.data)
 
     return render_template('LoadData.html',form=loadform)
 
 @app.route('/DataTable', methods=['GET','POST'])
 def index_data():
-    dataset = toy_data.get_empty_df()
+    loadform = LoadDataForm()
+    getsel = session.get('getsel',None)
+
+    if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
+        dataset= toy_data.get_dataset(getsel,"table")
+    else:
+        dataset = toy_data.get_empty_df()
 
     return render_template('DataTable.html',dataset=dataset)
+
+@app.route('/BuildModel', methods=['GET','POST'])
+def index_model():
+
+    return render_template('BuildModel.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

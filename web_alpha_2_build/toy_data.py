@@ -1,10 +1,10 @@
 import pandas as pd
 
 def get_choice():
-    choice_lst = [('1','Boston Housing'),('2','Classic Iris'),('3','Wine Classification'),('4','Breast Cancer')]
+    choice_lst = [('0',''),('1','Boston Housing'),('2','Classic Iris'),('3','Wine Classification'),('4','Breast Cancer')]
     return choice_lst
 
-def get_dataset(ind):
+def get_dataset(ind,dtype):
     if ind == 1:
         from sklearn.datasets import load_boston
         data = load_boston()
@@ -38,12 +38,18 @@ def get_dataset(ind):
         columns = df.columns.to_list()
         col_choice = get_predictor(df.columns.to_list())
 
-    return ds, col_choice
+    if dtype == "table":
+        return ds
+    elif dtype == "headers":
+        return col_choice
+
+    #return ds, col_choice
 
 def get_empty_df():
     #df = pd.DataFrame(index=index,columns=columns)
     df = pd.DataFrame()
     df = df.fillna(0)
+    df = df.to_html()
 
     return df
 
