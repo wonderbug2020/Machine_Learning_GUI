@@ -1,5 +1,17 @@
 {% extends "index.html"%}
 {% block content %}
 <h3>This is model builder page.</h3>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {{ form.selectPredictor.label }}{{ form.selectPredictor}}
+  <br>
+  {{ form.selectSplit.label }}{{ form.selectSplit}}
+  <br>
+  {{ form.selectTransform.label }}{{ form.selectTransform}}
+  <br>
+  {{ form.selectModel.label }}{{ form.selectModel}}
+  <br>
+  {{ form.modelSubmit() }}
+</form>
 
 {% endblock %}
