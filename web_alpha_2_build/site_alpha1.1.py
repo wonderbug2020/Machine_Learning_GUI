@@ -52,14 +52,17 @@ def index_model():
 
     if buildform.validate_on_submit():
         print('button clicked')
-        #print(buildform.selectSplit.data)
+        session['test_split'] = int(buildform.selectSplit.data)
 
     return render_template('BuildModel.html',form=buildform)
 
 @app.route('/ModelResult', methods=['GET','POST'])
 def index_results():
+    modsel = []
+    modsel.append(session.get('test_split',None))
+    #test_var=session.get('test_split',None)
 
-    return render_template('ModelResult.html')
+    return render_template('ModelResult.html',var=modsel[0])
 
 if __name__ == '__main__':
     app.run(debug=True)
