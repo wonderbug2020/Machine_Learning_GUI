@@ -9,8 +9,17 @@ app.config['SECRET_KEY'] = 'mysecretkey'
 toy_data_lst = toy_data.get_choice()
 
 class LoadDataForm(FlaskForm):
-    selectToyData = SelectField('Pick your toy data:',choices=toy_data_lst)
+    selectToyData = SelectField('Pick your toy data:',choices=toy_data.get_choice())#choices=toy_data_lst)
     toySubmit = SubmitField('Select')
+
+class LoadModelForm(FlaskForm):
+    selectPredictor = SelectField('Pick which variable is the predictor')
+    selectSplit = SelectField('Pick a test/train split between 0 and 1')
+    selectTransform = SelectField('Pick a transform if you need one, else select none: ')
+    selectModel = SelectField('Pick the model you would like to use: ')
+
+    modelSubmit = SubmitField('Build Model')
+
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -36,8 +45,20 @@ def index_data():
 
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
+    buildform = LoadModelForm()
+    getsel = session.get('getsel',None)
+    headers = toy_data.get_dataset(getsel,"headers")
+    buildform.selectPredictor.choices = headers
 
-    return render_template('BuildModel.html')
+    if buildform.validate_on_submit():
+        print('This button was clicked')
+
+    return render_template('BuildModel.html',form=buildform)
+
+@app.route('/ModelResult', methods=['GET','POST'])
+def index_results():
+
+    return render_template('ModelResult.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
