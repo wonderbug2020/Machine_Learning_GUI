@@ -1,12 +1,12 @@
 from flask import Flask,render_template,session, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField#, FloatField
-import toy_data
+import toy_data, ml_model
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
 
-toy_data_lst = toy_data.get_choice()
+#toy_data_lst = toy_data.get_choice()
 
 class LoadDataForm(FlaskForm):
     selectToyData = SelectField('Pick your toy data:',choices=toy_data.get_choice())#choices=toy_data_lst)
@@ -14,9 +14,9 @@ class LoadDataForm(FlaskForm):
 
 class LoadModelForm(FlaskForm):
     selectPredictor = SelectField('Pick which variable is the predictor')
-    selectSplit = SelectField('Pick a test/train split between 0 and 1')
-    selectTransform = SelectField('Pick a transform if you need one, else select none: ')
-    selectModel = SelectField('Pick the model you would like to use: ')
+    selectSplit = SelectField('Pick a test/train split between 0 and 1',choices=ml_model.get_split())
+    selectTransform = SelectField('Pick a transform if you need one, else select none: ',choices=ml_model.get_transform())
+    selectModel = SelectField('Pick the model you would like to use: ',choices=ml_model.get_model())
 
     modelSubmit = SubmitField('Build Model')
 
@@ -51,7 +51,8 @@ def index_model():
     buildform.selectPredictor.choices = headers
 
     if buildform.validate_on_submit():
-        print('This button was clicked')
+        print('button clicked')
+        #print(buildform.selectSplit.data)
 
     return render_template('BuildModel.html',form=buildform)
 
