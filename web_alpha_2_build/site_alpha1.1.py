@@ -52,14 +52,25 @@ def index_model():
 
     if buildform.validate_on_submit():
         print('button clicked')
-        #print(buildform.selectSplit.data)
+        session['Predsel'] = buildform.selectPredictor.data
+        session['Splitsel'] = float(buildform.selectSplit.data)
+        session['transformsel'] = buildform.selectTransform.data
+        session['modelsel'] = buildform.selectModel.data
 
     return render_template('BuildModel.html',form=buildform)
 
 @app.route('/ModelResult', methods=['GET','POST'])
 def index_results():
+    modsel = []
+    getsel = session.get('getsel',None)
+    modsel.append(session.get('Predsel',None))
+    modsel.append(session.get('Splitsel',None))
+    modsel.append(session.get('transformsel',None))
+    modsel.append(session.get('modelsel',None))
+    cm,ac=ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
+    #print(modsel[0])
 
-    return render_template('ModelResult.html')
+    return render_template('ModelResult.html',ac=ac,cm=cm)#var=modsel[0])
 
 if __name__ == '__main__':
     app.run(debug=True)

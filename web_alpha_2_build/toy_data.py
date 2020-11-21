@@ -12,7 +12,6 @@ def get_dataset(ind,dtype):
         df['MEDV'] = data.target
         ds = df.to_html()
         columns = df.columns.to_list()
-        col_choice = get_predictor(df.columns.to_list())
     elif ind == 2:
         from sklearn.datasets import load_iris
         data = load_iris()
@@ -20,7 +19,6 @@ def get_dataset(ind,dtype):
         df['species'] = data.target
         ds = df.to_html()
         columns = df.columns.to_list()
-        col_choice = get_predictor(df.columns.to_list())
     elif ind == 3:
         from sklearn.datasets import load_wine
         data = load_wine()
@@ -28,7 +26,6 @@ def get_dataset(ind,dtype):
         df['class'] = data.target
         ds = df.to_html()
         columns = df.columns.to_list()
-        col_choice = get_predictor(df.columns.to_list())
     else:
         from sklearn.datasets import load_breast_cancer
         data = load_breast_cancer()
@@ -36,14 +33,13 @@ def get_dataset(ind,dtype):
         df['class'] = data.target
         ds = df.to_html()
         columns = df.columns.to_list()
-        col_choice = get_predictor(df.columns.to_list())
 
     if dtype == "table":
         return ds
     elif dtype == "headers":
-        return col_choice
-
-    #return ds, col_choice
+        return columns
+    elif dtype == "dframe":
+        return df
 
 def get_empty_df():
     #df = pd.DataFrame(index=index,columns=columns)
@@ -52,10 +48,3 @@ def get_empty_df():
     df = df.to_html()
 
     return df
-
-def get_predictor(headers):
-    header_lst = []
-    for col in headers:
-        header_lst.append((col.index,col))
-
-    return header_lst
