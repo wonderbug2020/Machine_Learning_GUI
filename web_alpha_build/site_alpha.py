@@ -30,6 +30,7 @@ def index():
 
     if form_1.validate_on_submit():
         dataset, headers = toy_data.get_dataset(int(form_1.selectData.data))
+        print(type(headers))
         form_2.selectPredict.choices = headers
         print("This was executed")
         return render_template('loadedData.html', form_1=form_1, form_2=form_2, dataset=dataset)
