@@ -6,21 +6,20 @@ import toy_data, ml_model
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
 
-#toy_data_lst = toy_data.get_choice()
-
+#This is the form for loading in toy-data that will go on the loaddata page
 class LoadDataForm(FlaskForm):
     selectToyData = SelectField('Pick your toy data:',choices=toy_data.get_choice())#choices=toy_data_lst)
     toySubmit = SubmitField('Select')
 
+#This is the form for choosing all the normal parameters for building a machine learning model
 class LoadModelForm(FlaskForm):
     selectPredictor = SelectField('Pick which variable is the predictor')
     selectSplit = SelectField('Pick a test/train split between 0 and 1',choices=ml_model.get_split())
     selectTransform = SelectField('Pick a transform if you need one, else select none: ',choices=ml_model.get_transform())
     selectModel = SelectField('Pick the model you would like to use: ',choices=ml_model.get_model())
-
     modelSubmit = SubmitField('Build Model')
 
-
+#This is the page that is loaded in right from the beginning that asks the User to load in some data
 @app.route('/', methods=['GET','POST'])
 def index():
     loadform = LoadDataForm()
@@ -31,6 +30,7 @@ def index():
 
     return render_template('LoadData.html',form=loadform)
 
+#This page will display the data once it is loaded in
 @app.route('/DataTable', methods=['GET','POST'])
 def index_data():
     loadform = LoadDataForm()
@@ -43,6 +43,7 @@ def index_data():
 
     return render_template('DataTable.html',dataset=dataset)
 
+#This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
     buildform = LoadModelForm()
@@ -59,6 +60,7 @@ def index_model():
 
     return render_template('BuildModel.html',form=buildform)
 
+#This page will display the outputs of the model
 @app.route('/ModelResult', methods=['GET','POST'])
 def index_results():
     modsel = []
