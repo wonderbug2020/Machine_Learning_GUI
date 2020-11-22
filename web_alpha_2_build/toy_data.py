@@ -1,9 +1,12 @@
 import pandas as pd
 
+#This is for the preloaded data that comes with SKlearn. It is hand coded since there are so few.
 def get_choice():
     choice_lst = [('0',''),('1','Boston Housing'),('2','Classic Iris'),('3','Wine Classification'),('4','Breast Cancer')]
     return choice_lst
 
+#This is a multi use function. The function takes in the user selection and then depending on where this information is used
+#It will either return the data table, the data table as HTML, or the headers
 def get_dataset(ind,dtype):
     if ind == 1:
         from sklearn.datasets import load_boston
@@ -41,10 +44,9 @@ def get_dataset(ind,dtype):
     elif dtype == "dframe":
         return df
 
+#This creates an empty dataframe
 def get_empty_df():
-    #df = pd.DataFrame(index=index,columns=columns)
     df = pd.DataFrame()
     df = df.fillna(0)
     df = df.to_html()
-
     return df
