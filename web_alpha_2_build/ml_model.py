@@ -9,7 +9,7 @@ def get_split():
 
 #function that will provide a list of transformation processes
 def get_transform():
-    transform_lst = [('None'),('Standard Scaler')]
+    transform_lst = [('None'),('Standard Scaler'),('MinMax Scaler'),('Robust Scaler'),('Normalizer')]
     return transform_lst
 
 #function that will provide a list of different models
@@ -41,10 +41,13 @@ def get_train_test_split(X,y,split):
 
 #This function takes te user input and transforms thet data is they want that
 def get_scaled_data(X_train,X_test,scalar):
-    from sklearn.preprocessing import StandardScaler
-    sc = StandardScaler()
-    X_train = sc.fit_transform(X_train)
-    X_test = sc.transform(X_test)
+    if scalar == 'Standard Scaler':
+        from sklearn.preprocessing import StandardScaler
+        sc = StandardScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+    else:
+        print("no scalar was choosen")
     return X_train, X_test
 
 #This function actually runs the choosen model
