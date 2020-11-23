@@ -14,7 +14,8 @@ def get_transform():
 
 #function that will provide a list of different models
 def get_model():
-    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree')]
+    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree'),
+                 ('Random Forest'),('Support Vector Machines'),('Gaussian NB')]
     return model_lst
 
 #This is the main function that calls all the other functions to build and run the model
@@ -93,6 +94,24 @@ def run_the_model(X_train,y_train,X_test,model):
         dtree = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
         dtree.fit(X_train,y_train)
         y_pred = dtree.predict(X_test)
+        met = "cla"
+    elif model == "Random Forest":
+        from sklearn.ensemble import RandomForestClassifier
+        rfc = RandomForestClassifier(n_estimators=10, criterion = 'entropy', random_state = 0)
+        rfc.fit(X_train,y_train)
+        y_pred = rfc.predict(X_test)
+        met = "cla"
+    elif model == "Support Vector Machines":
+        from sklearn.svm import SVC
+        svc_model = SVC(kernel = 'linear', random_state = 0)
+        svc_model.fit(X_train, y_train)
+        y_pred = svc_model.predict(X_test)
+        met = "cla"
+    elif model == "Gaussian NB":
+        from sklearn.naive_bayes import GaussianNB
+        nbg = GaussianNB()
+        nbg.fit(X_train, y_train)
+        y_pred = nbg.predict(X_test)
         met = "cla"
     return y_pred, met
 
