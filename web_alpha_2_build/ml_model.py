@@ -46,6 +46,21 @@ def get_scaled_data(X_train,X_test,scalar):
         sc = StandardScaler()
         X_train = sc.fit_transform(X_train)
         X_test = sc.transform(X_test)
+    elif scalar == 'MinMax Scaler':
+        from sklearn.preprocessing import MinMaxScaler
+        sc = MinMaxScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+    elif scalar == 'Robust Scaler':
+        from sklearn.preprocessing import RobustScaler
+        sc = RobustScaler()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
+    elif scalar == 'Normalizer':
+        from sklearn.preprocessing import Normalizer
+        sc = Normalizer()
+        X_train = sc.fit_transform(X_train)
+        X_test = sc.transform(X_test)
     else:
         print("no scalar was choosen")
     return X_train, X_test
