@@ -14,7 +14,7 @@ def get_transform():
 
 #function that will provide a list of different models
 def get_model():
-    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN')]
+    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree')]
     return model_lst
 
 #This is the main function that calls all the other functions to build and run the model
@@ -87,6 +87,12 @@ def run_the_model(X_train,y_train,X_test,model):
         knn = KNeighborsClassifier(n_neighbors=5, metric = 'minkowski', p = 2)
         knn.fit(X_train,y_train)
         y_pred = knn.predict(X_test)
+        met = "cla"
+    elif model == "Decision Tree":
+        from sklearn.tree import DecisionTreeClassifier
+        dtree = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
+        dtree.fit(X_train,y_train)
+        y_pred = dtree.predict(X_test)
         met = "cla"
     return y_pred, met
 
