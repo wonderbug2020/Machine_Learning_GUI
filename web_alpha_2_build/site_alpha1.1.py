@@ -24,13 +24,15 @@ class LoadModelForm(FlaskForm):
 def index():
     loadform = LoadDataForm()
     session['dataset'] = 0
-    home_text = 'Hello and welcome to MLGUI. To get started, select some toy data to import below. '
+    home_text_1 = 'Hello and welcome to MLGUI'
+    home_text_2 = 'To get started, select some toy data below to import'
 
     if loadform.validate_on_submit():
         session['getsel'] = int(loadform.selectToyData.data)
-        home_text = 'Now that you have loaded some data you can view it on clicking on the data page. '
+        home_text_1 = 'Now that you have loaded some data you can view it by clicking on the data page'
+        home_text_2 = 'You can also load in another dataset below'
 
-    return render_template('LoadData.html',form=loadform, txt = home_text)
+    return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
 
 #This page will display the data once it is loaded in
 @app.route('/DataTable', methods=['GET','POST'])
