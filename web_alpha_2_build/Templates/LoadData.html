@@ -1,7 +1,7 @@
 {% extends "index.html"%}
 {% block content %}
 <h3>This is data loading page.</h3>
-<p>To get starter, import some toy data</p>
+<p>{{txt}}</p>
 <form method="post">
   {{ form.hidden_tag() }}
   {{ form.selectToyData.label }}{{ form.selectToyData}}
