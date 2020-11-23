@@ -14,7 +14,8 @@ def get_transform():
 
 #function that will provide a list of different models
 def get_model():
-    model_lst = [('Logistic Regression')]
+    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree'),
+                 ('Random Forest'),('Support Vector Machines'),('Gaussian NB')]
     return model_lst
 
 #This is the main function that calls all the other functions to build and run the model
@@ -22,9 +23,12 @@ def run_model(data,pred,split,trans,model):
     X,y = get_X_y(data,pred)
     X_train, X_test, y_train, y_test = get_train_test_split(X,y,float(split))
     X_train, X_test = get_scaled_data(X_train,X_test,trans)#scaler)
-    y_pred = run_the_model(X_train, y_train, X_test, model)
-    cm,ac = get_metrics(y_test,y_pred)
-    return cm,ac
+    y_pred,met = run_the_model(X_train, y_train, X_test, model)
+    if met == 'reg':
+        metric_1 = get_reg_metrics(y_test,y_pred)
+    elif met == 'cla':
+        metric_1 = get_cla_metrics(y_test,y_pred)
+    return metric_1
 
 #This function seperates the data into X and y components
 def get_X_y(data_in,predictor):
@@ -67,15 +71,59 @@ def get_scaled_data(X_train,X_test,scalar):
 
 #This function actually runs the choosen model
 def run_the_model(X_train,y_train,X_test,model):
-    from sklearn.linear_model import LogisticRegression
-    log_cla = LogisticRegression(random_state = 0)
-    log_cla.fit(X_train, y_train)
-    y_pred = log_cla.predict(X_test)
-    return y_pred
+    if model == 'Linear Regression':
+        from sklearn.linear_model import LinearRegression
+        lin_reg = LinearRegression()
+        lin_reg.fit(X_train,y_train)
+        y_pred = lin_reg.predict(X_test)
+        met = "reg"
+    elif model == 'Logistic Regression':
+        from sklearn.linear_model import LogisticRegression
+        log_cla = LogisticRegression(random_state = 0)
+        log_cla.fit(X_train, y_train)
+        y_pred = log_cla.predict(X_test)
+        met = "cla"
+    elif model == 'KNN':
+        from sklearn.neighbors import KNeighborsClassifier
+        knn = KNeighborsClassifier(n_neighbors=5, metric = 'minkowski', p = 2)
+        knn.fit(X_train,y_train)
+        y_pred = knn.predict(X_test)
+        met = "cla"
+    elif model == "Decision Tree":
+        from sklearn.tree import DecisionTreeClassifier
+        dtree = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
+        dtree.fit(X_train,y_train)
+        y_pred = dtree.predict(X_test)
+        met = "cla"
+    elif model == "Random Forest":
+        from sklearn.ensemble import RandomForestClassifier
+        rfc = RandomForestClassifier(n_estimators=10, criterion = 'entropy', random_state = 0)
+        rfc.fit(X_train,y_train)
+        y_pred = rfc.predict(X_test)
+        met = "cla"
+    elif model == "Support Vector Machines":
+        from sklearn.svm import SVC
+        svc_model = SVC(kernel = 'linear', random_state = 0)
+        svc_model.fit(X_train, y_train)
+        y_pred = svc_model.predict(X_test)
+        met = "cla"
+    elif model == "Gaussian NB":
+        from sklearn.naive_bayes import GaussianNB
+        nbg = GaussianNB()
+        nbg.fit(X_train, y_train)
+        y_pred = nbg.predict(X_test)
+        met = "cla"
+    return y_pred, met
+
+#This function outputs the R2 results of the model
+def get_reg_metrics(y_test,y_pred):
+    from sklearn.metrics import r2_score
+    Rs = r2_score(y_test,y_pred)
+    return Rs
 
 #This function out puts the accuracy and confusion matrix results of the model
-def get_metrics(y_test,y_pred):
+def get_cla_metrics(y_test,y_pred):
     from sklearn.metrics import confusion_matrix, accuracy_score
-    cm = confusion_matrix(y_test, y_pred)
+    #cm = confusion_matrix(y_test, y_pred)
     ac = accuracy_score(y_test, y_pred)
-    return cm, ac
+    return ac#, cm
