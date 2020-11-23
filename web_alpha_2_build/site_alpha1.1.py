@@ -57,6 +57,7 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
+        index_results()
 
     return render_template('BuildModel.html',form=buildform)
 
@@ -70,9 +71,8 @@ def index_results():
     modsel.append(session.get('transformsel',None))
     modsel.append(session.get('modelsel',None))
     metric_1=ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
-    #print(modsel[0])
 
-    return render_template('ModelResult.html',metric_1=metric_1)#var=modsel[0])
+    return render_template('ModelResult.html',metric_1=metric_1)
 
 if __name__ == '__main__':
     app.run(debug=True)
