@@ -4,6 +4,7 @@ from wtforms import SelectField, SubmitField#, FloatField
 import toy_data, ml_model
 
 data_loaded=False
+model_selected=False
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
@@ -73,9 +74,18 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
-        index_results()
+        model_selected = True
+    else:
+        model_selected = False
 
-    return render_template('BuildModel.html',form=buildform)
+    if model_selected == False:
+        model_text_1 = 'This is the model building page'
+        model_text_2 = 'Select the inputs from the choices below to start building your model'
+    elif model_selected == True:
+        model_text_1 = 'You have succesfully built your model'
+        model_text_2 = 'You can see the results of the model on the results page'
+
+    return render_template('BuildModel.html',form=buildform,txt_1=model_text_1,txt_2=model_text_2)
 
 #This page will display the outputs of the model
 @app.route('/ModelResult', methods=['GET','POST'])
