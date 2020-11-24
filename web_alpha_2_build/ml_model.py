@@ -28,7 +28,7 @@ def run_model(data,pred,split,trans,model):
         metric_1 = get_reg_metrics(y_test,y_pred)
     elif met == 'cla':
         metric_1 = get_cla_metrics(y_test,y_pred)
-    return metric_1
+    return metric_1,met
 
 #This function seperates the data into X and y components
 def get_X_y(data_in,predictor):
