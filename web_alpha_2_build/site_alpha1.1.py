@@ -4,7 +4,7 @@ from wtforms import SelectField, SubmitField#, FloatField
 import toy_data, ml_model
 
 data_loaded=False
-model_selected=False
+#model_selected=False
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
@@ -74,14 +74,16 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
-        model_selected = True
+        #model_selected = True
+        session['model_state'] = True
     else:
-        model_selected = False
+        #model_selected = False
+        session['model_state'] = False
 
-    if model_selected == False:
+    if session.get('model_state',None) == False:
         model_text_1 = 'This is the model building page'
         model_text_2 = 'Select the inputs from the choices below to start building your model'
-    elif model_selected == True:
+    elif session.get('model_state',None) == True:
         model_text_1 = 'You have succesfully built your model'
         model_text_2 = 'You can see the results of the model on the results page'
 
@@ -96,9 +98,19 @@ def index_results():
     modsel.append(session.get('Splitsel',None))
     modsel.append(session.get('transformsel',None))
     modsel.append(session.get('modelsel',None))
-    metric_1=ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
+    #metric_1=ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
+    if session.get('model_state',None) == False:
+        result_text_1 = 'This page will display the results of your model'
+        result_text_2 = "Make sure you have loaded some data and then go to the model page to build your model"
+    elif session.get('model_state',None) == True:
+        metric_1, met = ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
+        result_text_1 = 'Here are the results from your model'
+        if met == 'reg':
+            result_text_2 = f'Your model had an R2 score of {metric_1}'
+        elif met == 'cla':
+            result_text_2 = f'Your model had an accuracy of {metric_1}'
 
-    return render_template('ModelResult.html',metric_1=metric_1)
+    return render_template('ModelResult.html',txt_1=result_text_1,txt_2=result_text_2)
 
 if __name__ == '__main__':
     app.run(debug=True)
