@@ -3,6 +3,9 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField#, FloatField
 import toy_data, ml_model
 
+data_loaded=False
+model_selected=False
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
 
@@ -24,13 +27,15 @@ class LoadModelForm(FlaskForm):
 def index():
     loadform = LoadDataForm()
     session['dataset'] = 0
-    home_text = 'Hello and welcome to MLGUI. To get started, select some toy data to import below. '
+    home_text_1 = 'Hello and welcome to MLGUI'
+    home_text_2 = 'To get started, select some toy data below to import'
 
     if loadform.validate_on_submit():
         session['getsel'] = int(loadform.selectToyData.data)
-        home_text = 'Now that you have loaded some data you can view it on clicking on the data page. '
+        home_text_1 = 'Now that you have loaded some data you can view it by clicking on the data page'
+        home_text_2 = 'You can also load in another dataset below'
 
-    return render_template('LoadData.html',form=loadform, txt = home_text)
+    return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
 
 #This page will display the data once it is loaded in
 @app.route('/DataTable', methods=['GET','POST'])
@@ -38,12 +43,22 @@ def index_data():
     loadform = LoadDataForm()
     getsel = session.get('getsel',None)
 
+
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
         dataset= toy_data.get_dataset(getsel,"table")
+        data_loaded = True
     else:
         dataset = toy_data.get_empty_df()
+        data_loaded = False
 
-    return render_template('DataTable.html',dataset=dataset)
+    if data_loaded == False:
+        data_text_1 = 'You currently do not have any data loaded'
+        data_text_2 = 'You can load in data from the home page'
+    elif data_loaded == True:
+        data_text_1 = 'Below is your data table'
+        data_text_2 = 'You can begin building your model on the Model page'
+
+    return render_template('DataTable.html',dataset=dataset,txt_1=data_text_1,txt_2=data_text_2)
 
 #This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])
@@ -59,9 +74,18 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
-        index_results()
+        model_selected = True
+    else:
+        model_selected = False
 
-    return render_template('BuildModel.html',form=buildform)
+    if model_selected == False:
+        model_text_1 = 'This is the model building page'
+        model_text_2 = 'Select the inputs from the choices below to start building your model'
+    elif model_selected == True:
+        model_text_1 = 'You have succesfully built your model'
+        model_text_2 = 'You can see the results of the model on the results page'
+
+    return render_template('BuildModel.html',form=buildform,txt_1=model_text_1,txt_2=model_text_2)
 
 #This page will display the outputs of the model
 @app.route('/ModelResult', methods=['GET','POST'])

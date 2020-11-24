@@ -1,6 +1,7 @@
 {% extends "index.html"%}
 {% block content %}
-<h3>This is model builder page.</h3>
+<h3>{{txt_1}}</h3>
+<h3>{{txt_2}}</h3>
 <form method="post">
   {{ form.hidden_tag() }}
   {{ form.selectPredictor.label }}{{ form.selectPredictor}}
