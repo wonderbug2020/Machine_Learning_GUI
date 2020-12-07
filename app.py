@@ -36,7 +36,7 @@ def index():
         session['getsel'] = int(loadform.selectToyData.data)
         home_text_1 = 'Now that you have loaded some data you can view it by clicking on the data page'
         home_text_2 = 'You can also load in another dataset below'
-        #url_for('index_data')
+        return redirect(url_for('index_data'))
 
     return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
 
