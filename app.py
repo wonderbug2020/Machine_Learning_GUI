@@ -1,5 +1,6 @@
 from flask import Flask,render_template,session, redirect, url_for
 from flask_wtf import FlaskForm
+from flask_bootstrap import Bootstrap
 from wtforms import SelectField, SubmitField#, FloatField
 import toy_data, ml_model
 
@@ -7,6 +8,7 @@ data_loaded=False
 #model_selected=False
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'mysecretkey'
 
 #This is the form for loading in toy-data that will go on the loaddata page
