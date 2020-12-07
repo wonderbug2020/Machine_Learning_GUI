@@ -77,10 +77,9 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
-        #model_selected = True
         session['model_state'] = True
+        return redirect(url_for('index_results'))
     else:
-        #model_selected = False
         session['model_state'] = False
 
     if session.get('model_state',None) == False:
