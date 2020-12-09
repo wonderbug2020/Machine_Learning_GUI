@@ -57,6 +57,7 @@ def index_data():
     if predform.validate_on_submit():
         session['Predsel'] = predform.selectPredictor.data
         session['ModType'] = predform.selectType.data
+        return redirect(url_for('index_model'))
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
         dataset= toy_data.get_dataset(getsel,"table")
