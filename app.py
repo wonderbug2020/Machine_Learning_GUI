@@ -36,6 +36,7 @@ def index():
         session['getsel'] = int(loadform.selectToyData.data)
         home_text_1 = 'Now that you have loaded some data you can view it by clicking on the data page'
         home_text_2 = 'You can also load in another dataset below'
+        return redirect(url_for('index_data'))
 
     return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
 
@@ -76,10 +77,9 @@ def index_model():
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
-        #model_selected = True
         session['model_state'] = True
+        return redirect(url_for('index_results'))
     else:
-        #model_selected = False
         session['model_state'] = False
 
     if session.get('model_state',None) == False:
