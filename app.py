@@ -16,12 +16,17 @@ class LoadDataForm(FlaskForm):
     selectToyData = SelectField('Pick your toy data:',choices=toy_data.get_choice())#choices=toy_data_lst)
     toySubmit = SubmitField('Select')
 
+#This is the form for finding out information about the selectPredictor
+class PredictorForm(FlaskForm):
+    selectPredictor = SelectField('Pick which variable is the predictor')
+    selectType = SelectField('Are you building a regression or classification model',choices=['regression','classification'])
+    predSubmit = SubmitField('Submit Predictor')
+
 #This is the form for choosing all the normal parameters for building a machine learning model
 class LoadModelForm(FlaskForm):
-    selectPredictor = SelectField('Pick which variable is the predictor')
     selectSplit = SelectField('Pick a test/train split between 0 and 1',choices=ml_model.get_split())
     selectTransform = SelectField('Pick a transform if you need one, else select none: ',choices=ml_model.get_transform())
-    selectModel = SelectField('Pick the model you would like to use: ',choices=ml_model.get_model())
+    selectModel = SelectField('Pick the model you would like to use: ')#,choices=ml_model.get_model())
     modelSubmit = SubmitField('Build Model')
 
 #This is the page that is loaded in right from the beginning that asks the User to load in some data
@@ -44,8 +49,15 @@ def index():
 @app.route('/DataTable', methods=['GET','POST'])
 def index_data():
     loadform = LoadDataForm()
+    predform = PredictorForm()
     getsel = session.get('getsel',None)
+    headers = toy_data.get_dataset(getsel,"headers")
+    predform.selectPredictor.choices = headers
 
+    if predform.validate_on_submit():
+        session['Predsel'] = predform.selectPredictor.data
+        session['ModType'] = predform.selectType.data
+        return redirect(url_for('index_model'))
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
         dataset= toy_data.get_dataset(getsel,"table")
@@ -59,21 +71,18 @@ def index_data():
         data_text_2 = 'You can load in data from the home page'
     elif data_loaded == True:
         data_text_1 = 'Below is your data table'
-        data_text_2 = 'You can begin building your model on the Model page'
+        data_text_2 = 'Before you begin building your model, provide some information about the variable you are trying to predict'
 
-    return render_template('DataTable.html',dataset=dataset,txt_1=data_text_1,txt_2=data_text_2)
+    return render_template('DataTable.html',form=predform,dataset=dataset,txt_1=data_text_1,txt_2=data_text_2)
 
 #This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
     buildform = LoadModelForm()
-    getsel = session.get('getsel',None)
-    headers = toy_data.get_dataset(getsel,"headers")
-    buildform.selectPredictor.choices = headers
+    buildform.selectModel.choices = ml_model.get_model(session.get('ModType',None))
 
     if buildform.validate_on_submit():
         print('button clicked')
-        session['Predsel'] = buildform.selectPredictor.data
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data

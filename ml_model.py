@@ -13,9 +13,14 @@ def get_transform():
     return transform_lst
 
 #function that will provide a list of different models
-def get_model():
-    model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree'),
-                 ('Random Forest'),('Support Vector Machines'),('Gaussian NB')]
+def get_model(model_type):
+    if model_type == 'regression':
+        model_lst = ['Linear Regression']
+    elif model_type == 'classification':
+        model_lst = ['Logistic Regression','KNN','Decision Tree','Random Forest','Support Vector Machines','Gaussian NB']
+    else:
+        model_lst = [('Linear Regression'),('Logistic Regression'),('KNN'),('Decision Tree'),
+                    ('Random Forest'),('Support Vector Machines'),('Gaussian NB')]
     return model_lst
 
 #This is the main function that calls all the other functions to build and run the model
