@@ -19,6 +19,7 @@ class LoadDataForm(FlaskForm):
 #This is the form for finding out information about the selectPredictor
 class PredictorForm(FlaskForm):
     selectPredictor = SelectField('Pick which variable is the predictor')
+    selectType = SelectField('Are you building a regression or classification model',choices=['regression','classification'])
     predSubmit = SubmitField('Submit Predictor')
 
 #This is the form for choosing all the normal parameters for building a machine learning model
