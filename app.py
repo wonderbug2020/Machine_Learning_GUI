@@ -26,7 +26,7 @@ class PredictorForm(FlaskForm):
 class LoadModelForm(FlaskForm):
     selectSplit = SelectField('Pick a test/train split between 0 and 1',choices=ml_model.get_split())
     selectTransform = SelectField('Pick a transform if you need one, else select none: ',choices=ml_model.get_transform())
-    selectModel = SelectField('Pick the model you would like to use: ',choices=ml_model.get_model())
+    selectModel = SelectField('Pick the model you would like to use: ')#,choices=ml_model.get_model())
     modelSubmit = SubmitField('Build Model')
 
 #This is the page that is loaded in right from the beginning that asks the User to load in some data
@@ -78,6 +78,7 @@ def index_data():
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
     buildform = LoadModelForm()
+    buildform.selectModel.choices = ml_model.get_model(session.get('ModType',None))
 
     if buildform.validate_on_submit():
         print('button clicked')
