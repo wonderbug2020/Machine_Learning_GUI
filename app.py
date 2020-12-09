@@ -24,7 +24,6 @@ class PredictorForm(FlaskForm):
 
 #This is the form for choosing all the normal parameters for building a machine learning model
 class LoadModelForm(FlaskForm):
-    #selectPredictor = SelectField('Pick which variable is the predictor')
     selectSplit = SelectField('Pick a test/train split between 0 and 1',choices=ml_model.get_split())
     selectTransform = SelectField('Pick a transform if you need one, else select none: ',choices=ml_model.get_transform())
     selectModel = SelectField('Pick the model you would like to use: ',choices=ml_model.get_model())
@@ -57,6 +56,7 @@ def index_data():
 
     if predform.validate_on_submit():
         session['Predsel'] = predform.selectPredictor.data
+        session['ModType'] = predform.selectType.data
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
         dataset= toy_data.get_dataset(getsel,"table")
@@ -78,13 +78,9 @@ def index_data():
 @app.route('/BuildModel', methods=['GET','POST'])
 def index_model():
     buildform = LoadModelForm()
-    #getsel = session.get('getsel',None)
-    #headers = toy_data.get_dataset(getsel,"headers")
-    #buildform.selectPredictor.choices = headers
 
     if buildform.validate_on_submit():
         print('button clicked')
-        #session['Predsel'] = buildform.selectPredictor.data
         session['Splitsel'] = float(buildform.selectSplit.data)
         session['transformsel'] = buildform.selectTransform.data
         session['modelsel'] = buildform.selectModel.data
