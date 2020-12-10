@@ -109,17 +109,12 @@ def index_results():
     modsel.append(session.get('Splitsel',None))
     modsel.append(session.get('transformsel',None))
     modsel.append(session.get('modelsel',None))
-    #metric_1=ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
     if session.get('model_state',None) == False:
         result_text_1 = 'This page will display the results of your model'
         result_text_2 = "Make sure you have loaded some data and then go to the model page to build your model"
     elif session.get('model_state',None) == True:
-        metric_1, met = ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
+        result_text_2, met = ml_model.run_model(getsel,modsel[0],modsel[1],modsel[2],modsel[3])
         result_text_1 = 'Here are the results from your model'
-        if met == 'reg':
-            result_text_2 = f'Your model had an R2 score of {metric_1}'
-        elif met == 'cla':
-            result_text_2 = f'Your model had an accuracy of {metric_1}'
 
     return render_template('ModelResult.html',txt_1=result_text_1,txt_2=result_text_2)
 
