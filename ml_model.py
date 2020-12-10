@@ -30,10 +30,10 @@ def run_model(data,pred,split,trans,model):
     X_train, X_test = get_scaled_data(X_train,X_test,trans)#scaler)
     y_pred,met = run_the_model(X_train, y_train, X_test, model)
     if met == 'reg':
-        metric_1 = get_reg_metrics(y_test,y_pred)
+        text = get_reg_metrics(y_test,y_pred)
     elif met == 'cla':
-        metric_1 = get_cla_metrics(y_test,y_pred)
-    return metric_1,met
+        text = get_cla_metrics(y_test,y_pred)
+    return text,met
 
 #This function seperates the data into X and y components
 def get_X_y(data_in,predictor):
@@ -124,11 +124,25 @@ def run_the_model(X_train,y_train,X_test,model):
 def get_reg_metrics(y_test,y_pred):
     from sklearn.metrics import r2_score
     Rs = r2_score(y_test,y_pred)
-    return Rs
+    rscore = round(Rs,2)
+    if rscore >= .90:
+        text=f"Your model performed very well with an R^2 value of {rscore}"
+    elif rscore >= .70:
+        text=f"Your model performed okay with an R^2 value of {rscore}"
+    else:
+        text=f"Your model performed poorly with an R^2 value of {rscore}"
+    return text
 
 #This function out puts the accuracy and confusion matrix results of the model
 def get_cla_metrics(y_test,y_pred):
     from sklearn.metrics import confusion_matrix, accuracy_score
     #cm = confusion_matrix(y_test, y_pred)
     ac = accuracy_score(y_test, y_pred)
-    return ac#, cm
+    acc = round(ac,2)
+    if acc >= .90:
+        text=f"Your model performed very well with an accuracy of {acc}"
+    elif acc >= .70:
+        text=f"Your model performed okay with an accuracy of {acc}"
+    else:
+        text=f"Your model performed poorly with an accuracy of {acc}"
+    return text#, cm
