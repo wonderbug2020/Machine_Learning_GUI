@@ -2,6 +2,8 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
 <h3>{{txt_1}}</h3>
+<img src="../static/css/images/qpop.png" alt="alternative text" width="20" height="20"
+     title="this will be displayed as a tooltip"/>
 <h3>{{txt_2}}</h3>
 {{ wtf.quick_form(form,button_map={'predSubmit':'primary'}) }}
 <form method="post">
