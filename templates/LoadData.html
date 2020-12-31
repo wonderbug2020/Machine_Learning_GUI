@@ -2,12 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-<!-- <h3>{{txt_1}}</h3>
-<h3>{{txt_2}}</h3> -->
 <h1>Hell and welcome to MLGUI</h1>
 <h2>This webapp is designed to help make building a machine learning model easy</h2>
 <h3>To get started, select a toy data set to import below</h3>
 {{ wtf.quick_form(form,button_map={'toySubmit':'primary'}) }}
-
 
 {% endblock %}
