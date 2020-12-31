@@ -61,17 +61,8 @@ def index_data():
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
         dataset= toy_data.get_dataset(getsel,"table")
-        data_loaded = True
     else:
         dataset = toy_data.get_empty_df()
-        data_loaded = False
-
-    if data_loaded == False:
-        data_text_1 = 'You currently do not have any data loaded'
-        data_text_2 = 'You can load in data from the home page'
-    elif data_loaded == True:
-        data_text_1 = 'Below is your data table'
-        data_text_2 = 'Before you begin building your model, provide some information about the variable you are trying to predict'
 
     return render_template('DataTable.html',form=predform,dataset=dataset)
 
