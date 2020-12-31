@@ -1,8 +1,23 @@
 {% extends "index.html"%}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
-<h3>{{txt_1}}</h3>
-<h3>{{txt_2}}</h3>
+<!-- <h3>{{txt_1}}</h3>
+<h3>{{txt_2}}</h3> -->
+<h1>On this page you will build you Machine learning model</h1>
+<h3>The dropdown menus present the options you have to select from.</h3>
+<h3>For a description of the different options, hover over the tooltips</h3>
+<img src="../static/css/images/qpop.png" alt="test split tooltip" width="20" height="20"
+     title="When building a model it is common to split the data into a training set and a testing set
+The training set is used to to build and tweak your model
+One your model is built, it is typical to test it on a set of data it hasn't seen before"/>
+
+<img src="../static/css/images/qpop.png" alt="transform tooltip" width="20" height="20"
+     title="If columns in your data has several orders of magnitude between the smallest and largest values, it it wise to transform the data
+By transforming the data, you normalize it so that larger values do not have disperportionate influence over your model"/>
+
+<img src="../static/css/images/qpop.png" alt="Model selection tooltip" width="20" height="20"
+     title="The final step is to choose the model you want to use
+Every Model has it's advantages and dissadvantages depending on the nature of your data"/>
 {{ wtf.quick_form(form,button_map={'modelSubmit':'primary'}) }}
 
 
