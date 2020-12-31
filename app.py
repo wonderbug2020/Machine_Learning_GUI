@@ -43,7 +43,7 @@ def index():
         home_text_2 = 'You can also load in another dataset below'
         return redirect(url_for('index_data'))
 
-    return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
+    return render_template('LoadData.html',form=loadform)
 
 #This page will display the data once it is loaded in
 @app.route('/DataTable', methods=['GET','POST'])
@@ -73,7 +73,7 @@ def index_data():
         data_text_1 = 'Below is your data table'
         data_text_2 = 'Before you begin building your model, provide some information about the variable you are trying to predict'
 
-    return render_template('DataTable.html',form=predform,dataset=dataset,txt_1=data_text_1,txt_2=data_text_2)
+    return render_template('DataTable.html',form=predform,dataset=dataset)
 
 #This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])
@@ -98,7 +98,7 @@ def index_model():
         model_text_1 = 'You have succesfully built your model'
         model_text_2 = 'You can see the results of the model on the results page'
 
-    return render_template('BuildModel.html',form=buildform,txt_1=model_text_1,txt_2=model_text_2)
+    return render_template('BuildModel.html',form=buildform)
 
 #This page will display the outputs of the model
 @app.route('/ModelResult', methods=['GET','POST'])
