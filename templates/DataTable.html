@@ -1,11 +1,13 @@
 {% extends "index.html"%}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
-<!-- <h3>{{txt_1}}</h3> -->
-<h1>This is the data table page. Here you can view your data </h1>
+<h1>This is the data table page</h1>
+<h3>On top of viewing the data table, you will select the predictor variable and model type</h3>
 <img src="../static/css/images/qpop.png" alt="alternative text" width="20" height="20"
-     title="this will be displayed as a tooltip"/>
-<!-- <h3>{{txt_2}}</h3> -->
+     title="The predictor variable is the variable or column that you want your model to make a prediction about
+
+Generally speaking, there are two types of models, Regression and Classification
+Regression models that predict continuous values and classification models that predict class or group values"/>
 {{ wtf.quick_form(form,button_map={'predSubmit':'primary'}) }}
 <form method="post">
   {{ dataset|safe }}
