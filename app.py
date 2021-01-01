@@ -2,7 +2,7 @@ from flask import Flask,render_template,session, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import SelectField, SubmitField#, FloatField
-import toy_data, ml_model
+import toy_data, ml_model, text_suggest
 
 data_loaded=False
 #model_selected=False
@@ -60,11 +60,13 @@ def index_data():
         return redirect(url_for('index_model'))
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
-        dataset= toy_data.get_dataset(getsel,"table")
+        dataset = toy_data.get_dataset(getsel,"table")
+        text_1 = text_suggest.get_pred_sug(getsel)
     else:
         dataset = toy_data.get_empty_df()
+        text_1 = " "
 
-    return render_template('DataTable.html',form=predform,dataset=dataset)
+    return render_template('DataTable.html',form=predform,dataset=dataset,text_1=text_1)
 
 #This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])

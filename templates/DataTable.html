@@ -7,7 +7,10 @@
      title="The predictor variable is the variable or column that you want your model to make a prediction about"/>
 <img src="../static/css/images/qpop.png" alt="alternative text" width="20" height="20"
      title="Generally speaking, there are two types of models, Regression and Classification
-Regression models predict a continuous value and classification models predict which class or group the value belongs to"/>
+Regression models predict a continuous value and classification models predict which class or group the value belongs to"/><br>
+<h3>{{ text_1 }}</h3>
+
+
 {{ wtf.quick_form(form,button_map={'predSubmit':'primary'}) }}
 <form method="post">
   {{ dataset|safe }}
