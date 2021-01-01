@@ -2,7 +2,7 @@ from flask import Flask,render_template,session, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import SelectField, SubmitField#, FloatField
-import toy_data, ml_model
+import toy_data, ml_model, text_suggest
 
 data_loaded=False
 #model_selected=False
@@ -43,7 +43,7 @@ def index():
         home_text_2 = 'You can also load in another dataset below'
         return redirect(url_for('index_data'))
 
-    return render_template('LoadData.html',form=loadform,txt_1=home_text_1,txt_2=home_text_2)
+    return render_template('LoadData.html',form=loadform)
 
 #This page will display the data once it is loaded in
 @app.route('/DataTable', methods=['GET','POST'])
@@ -60,20 +60,13 @@ def index_data():
         return redirect(url_for('index_model'))
 
     if (getsel == 1 or getsel == 2 or getsel == 3 or getsel == 4):
-        dataset= toy_data.get_dataset(getsel,"table")
-        data_loaded = True
+        dataset = toy_data.get_dataset(getsel,"table")
+        text_1 = text_suggest.get_pred_sug(getsel)
     else:
         dataset = toy_data.get_empty_df()
-        data_loaded = False
+        text_1 = " "
 
-    if data_loaded == False:
-        data_text_1 = 'You currently do not have any data loaded'
-        data_text_2 = 'You can load in data from the home page'
-    elif data_loaded == True:
-        data_text_1 = 'Below is your data table'
-        data_text_2 = 'Before you begin building your model, provide some information about the variable you are trying to predict'
-
-    return render_template('DataTable.html',form=predform,dataset=dataset,txt_1=data_text_1,txt_2=data_text_2)
+    return render_template('DataTable.html',form=predform,dataset=dataset,text_1=text_1)
 
 #This is the page where the user will build the model using selections
 @app.route('/BuildModel', methods=['GET','POST'])
@@ -98,7 +91,7 @@ def index_model():
         model_text_1 = 'You have succesfully built your model'
         model_text_2 = 'You can see the results of the model on the results page'
 
-    return render_template('BuildModel.html',form=buildform,txt_1=model_text_1,txt_2=model_text_2)
+    return render_template('BuildModel.html',form=buildform)
 
 #This page will display the outputs of the model
 @app.route('/ModelResult', methods=['GET','POST'])

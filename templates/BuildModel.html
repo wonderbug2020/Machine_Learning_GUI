@@ -1,8 +1,19 @@
 {% extends "index.html"%}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
-<h3>{{txt_1}}</h3>
-<h3>{{txt_2}}</h3>
+<!-- <h3>{{txt_1}}</h3>
+<h3>{{txt_2}}</h3> -->
+<h1>On this page you will build you Machine learning model</h1>
+<h3>The dropdown menus present the options you have to select from.</h3>
+<h3>For a description of the different options, hover over the tooltips</h3>
+<img src="../static/css/images/qpop.png" alt="test split tooltip" width="20" height="20"
+     title="This tells the model what percentage of your data you want to set asside for testing your model"/>
+
+<img src="../static/css/images/qpop.png" alt="transform tooltip" width="20" height="20"
+     title="This allows you to apply a transformation method to your data"/>
+
+<img src="../static/css/images/qpop.png" alt="Model selection tooltip" width="20" height="20"
+     title="The final step is to choose the model you want to use"/>
 {{ wtf.quick_form(form,button_map={'modelSubmit':'primary'}) }}
 
 
